@@ -8,6 +8,8 @@ let app = express()
 
 github = new Octokit()
 
+let data = undefined
+
 // setting sequelize fixes
 let HB = expressHandlebars({
     handlebars: allowInsecurePrototypeAccess(handlebars),
@@ -37,18 +39,26 @@ app.get("/about", async (req, res) => {
 
 app.get("/github", async (req, res) => {
 
-    let data
-    try {
-        data = await github.repos.listForUser({username: "michael-bailey"})
-    } catch (err) {
-        data = {data: []}
-    }
+    // implementing simple caching.
+    console.log(!data);
+    if (!data) {
+        try {
+            data = await github.repos.listForUser({username: "michael-bailey"})
+        } catch (err) {
+            console.log(err);
+            data = {data: []}
+        }
+    } 
+
+    // get the repo list from the data.
     let dataList = data.data
     console.log(dataList.length);
 
+    // render it to the client.
     res.render("github", {
         path: "/github",
-        repos: dataList
+        repos: dataList,
+        date: Date().slice(0,15)
     })
 })
 

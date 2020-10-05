@@ -1,0 +1,12 @@
+<article >
+    <h1>A list of my git repositories</h1>
+    {{#each repos}}
+    <div class="gitCard">
+        <h2>{{this.name}}</h1>
+        <p>stars {{this.stargazers_count}}</p>
+        <a href={{this.html_url}}>link to page</a>
+    </div>
+    {{else}}
+        <span>no repos</span>
+    {{/each}}
+</article>

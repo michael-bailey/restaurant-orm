@@ -8,6 +8,11 @@ This Github pages contains all the documentation for my Javascript Restaurant De
 
 It gives examples of:
 
+ - HTML
+    - using HMTL create pages 
+    - using HTML use the anchor tag to link to other pages.
+ - CSS
+    - using CSS style specific elements of a HTML page
  - Sequelize
     - using Sequelize to model classes into a database
     - using Sequelize to create relations between diffrent model classes
@@ -20,9 +25,5 @@ It gives examples of:
 
 ---
 
- - [HTML Semantic tags](./html_sematic.md)
- - [Menu](./Menu.md)
- - [Item](./Item.md)
- - [Ingredient](./Ingredient.md)
- - [Table](./Table.md)
- - [Booking](./Booking.md)
+ - [HTML Semantic tags](./html_semantic.md)
+ - [Data model](./models/models.md)

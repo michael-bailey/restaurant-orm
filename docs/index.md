@@ -1,0 +1,28 @@
+# js-Restaurant 
+
+[By Michael Bailey](https://michael-bailey.github.io/)
+
+---
+
+This Github pages contains all the documentation for my Javascript Restaurant Demo
+
+It gives examples of:
+
+ - Sequelize
+    - using Sequelize to model classes into a database
+    - using Sequelize to create relations between diffrent model classes
+    - using Sequelize to fetch model instances form a database
+ - Express
+    - using Express to create a simple web server for http content
+    - using Express to serve
+    - using Express and templates to server dynamic content
+
+
+---
+
+ - [HTML Semantic tags](./html_sematic.md)
+ - [Menu](./Menu.md)
+ - [Item](./Item.md)
+ - [Ingredient](./Ingredient.md)
+ - [Table](./Table.md)
+ - [Booking](./Booking.md)

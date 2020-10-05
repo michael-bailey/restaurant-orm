@@ -13,13 +13,13 @@ These tags include
 
 ## Header
 
-This is generaly used at the top of a page to indicate the pages title
+This is generaly used at the top of a page to indicate the pages title.
 
 ## Nav
 
 the nav tag denotes a navigation area where a group of links are held
 
-this allows easy access to common links on the page
+this allows easy access to common links on the page.
 
 ## Article
 
@@ -39,4 +39,4 @@ The section tag is used to denote a section in the article like seperating parag
 
 This tag is commonly used in conjuntion with sections to provide infomation that is indirectly linked to the current section.
 
-however it also appears to fit the pourpose of a side bar for other related content like page section links
+however it also appears to fit the pourpose of a side bar for other related content like page section links.

@@ -1,5 +1,5 @@
 const {Model, DataTypes, Sequelize} = require("sequelize")
-const sequelize = new Sequelize("sqlite:./db.db")
+const sequelize = new Sequelize("sqlite:./restaurants.db")
 
 // MARK: - Classes
 class Restaurant extends Model {}

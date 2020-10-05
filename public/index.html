@@ -1,21 +1,43 @@
 <!DOCTYPE html>
 <html>
     <head>
-
+        <title>a basic page</title>
+        <link rel="stylesheet" href="style.css"/>
     </head>
     <body>
         <header>This is a website index page</header>
         <nav>
-            <a href="/index.html" />
-            <a href="/about.html" />
+            <a href="/index.html">index</a>
+            <a href="/about.html">about</a>
         </nav>
+        <aside>
+            <a href="#ishere"> what is here</a>
+        </aside>
         <article>
-            <aside>
-                
-            </aside>
-            <section>
-                <h2></h2>
+
+            <section id="ishere">
+                <h2>What is here?</h2>
+
+                <p>
+                    short answer: not much really.<br/>
+                    long answer: not much.<br/>
+
+                    this is a test site so make sure that express is doing it's express job of serving a few html pages<br/>
+
+                </p>
+            </section>
+            <section id="isnthere">
+                <h2>What isn't here?</h2>
+                <p>
+                    short answer: quite a bit.<br/>
+                    long answer: a little.<br/>
+
+                    This is not a fully dynamic page with flying animations, drag and drop file uploading, and one to one help chat. I did this in about half an hour.<br/>
+                </p>
             </section>
         </article>
+        <footer>
+            this is made by Michael Bailey <a href="https://michael-bailey.github.io/">github.io</a>
+        </footer>
     </body>
 </html>

@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "node ./src/index.js",
     "test": "jest --coverage=true",
     "test-watch": "jest --watchAll"
   },

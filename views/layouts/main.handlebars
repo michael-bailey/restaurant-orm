@@ -1,20 +1,16 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>a basic page</title>
+        <title>Restaurant</title>
         <link rel="stylesheet" href="style.css"/>
     </head>
+    
     <body>
-        <header>localhost:3000{{path}}</header>
-        <nav>
-            <a href="/">index</a>
-            <a href="/about">about</a>
-            <a href="/github">github</a>
-
-            <a style="float: right;">{{date}}</a>
-        </nav>
-
-            {{{body}}}
+        <div class="header-container">
+            <header>{{title}}</header>
+            <h1>{{page}}</h1>
+        </div>
+        {{{body}}}
         <footer>
             this is made by Michael Bailey <a style="text-decoration: underline;" href="https://michael-bailey.github.io/">github.io</a>
         </footer>

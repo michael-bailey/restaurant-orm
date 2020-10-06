@@ -2,13 +2,15 @@ const express = require("express")
 const handlebars = require("handlebars")
 const expressHandlebars = require("express-handlebars")
 const { allowInsecurePrototypeAccess } = require("@handlebars/allow-prototype-access")
-const { Octokit } = require("@octokit/rest")
+
+const {Restaurant, Menu} = require("./model/model")
+
+
+
+
+let cache = undefined
 
 let app = express()
-
-github = new Octokit()
-
-let data = undefined
 
 // setting sequelize fixes
 let HB = expressHandlebars({
@@ -24,41 +26,25 @@ app.use(express.static("public"))
 
 // overriding date handle
 app.get('/', async (req, res) => {
+    if (!cache) {
+        // loading restaurants into cache
+        cache = []
+    }
+    try {
+        data = await Restaurant.findAll({
+            include: [{model: Menu}]
+        })
+
+    } catch (err) {
+        console.log(err);
+        data = [{name: "no such restaurant"}]
+    }
+
+    console.log(cache);
     res.render("index", {
-        path: "/",
-        date: Date().slice(0,15)
-    })
-})
-
-app.get("/about", async (req, res) => {
-    res.render("about", {
-        path: "/about",
-        date: Date().slice(0,15)
-    })
-})
-
-app.get("/github", async (req, res) => {
-
-    // implementing simple caching.
-    console.log(!data);
-    if (!data) {
-        try {
-            data = await github.repos.listForUser({username: "michael-bailey"})
-        } catch (err) {
-            console.log(err);
-            data = {data: []}
-        }
-    } 
-
-    // get the repo list from the data.
-    let dataList = data.data
-    console.log(dataList.length);
-
-    // render it to the client.
-    res.render("github", {
-        path: "/github",
-        repos: dataList,
-        date: Date().slice(0,15)
+        title: "Restaurants",
+        page: "Main Page",
+        restaurant: data
     })
 })
 

@@ -1,68 +1,32 @@
-const {Model, DataTypes, Sequelize} = require("sequelize")
-const sequelize = new Sequelize("sqlite:./restaurants.db")
+const {Sequelize, Model, DataTypes} = require('sequelize')
+const path = require('path')
 
-// MARK: - Classes
+console.log(process.env.NODE_ENV);
+
+const sequelize = process.env.NODE_ENV === 'test'
+    ? new Sequelize('sqlite::memory:', null, null, {dialect: 'sqlite'})
+    : new Sequelize({dialect: 'sqlite', storage: "./data/restaurants.db"})
+
 class Restaurant extends Model {}
 Restaurant.init({
     name: DataTypes.STRING,
-    location: DataTypes.STRING,
-},{
-    sequelize,
-})
-
-class Table extends Model {}
-Table.init({
-    number: DataTypes.INTEGER,
-    seats: DataTypes.INTEGER
-}, {
-    sequelize
-})
-
-class Booking extends Model {}
-Booking.init({
-    groupName: DataTypes.STRING,
-    date: DataTypes.DATE,
-}, {
-    sequelize
-})
+    image: DataTypes.STRING
+}, {sequelize})
 
 class Menu extends Model {}
 Menu.init({
-    title: DataTypes.STRING,
-    description: DataTypes.STRING
-}, {
-    sequelize
-})
+    title: DataTypes.STRING
+}, {sequelize})
 
-class MenuItem extends Model {}
-MenuItem.init({
+class Item extends Model {}
+Item.init({
     name: DataTypes.STRING,
-    description: DataTypes.STRING
-}, {
-    sequelize
-})
-
-class Ingredient extends Model {}
-Ingredient.init({
-    name: DataTypes.STRING,
-    isAllergen: DataTypes.BOOLEAN
-}, {
-    sequelize
-})
-
-// MARK: - Relations for table chain
-Restaurant.hasMany(Table)
-Table.belongsTo(Restaurant)
-Table.hasMany(Booking)
-Booking.belongsTo(Table)
-
+    price: DataTypes.FLOAT
+}, {sequelize})
 
 Restaurant.hasMany(Menu)
-Menu.belongsToMany(Restaurant, {through: "menu_ref"})
-Menu.hasMany(MenuItem)
-MenuItem.belongsToMany(Menu, {through: "menu_item_ref"})
-MenuItem.hasMany(Ingredient)
-Ingredient.belongsToMany(MenuItem, {through: "ingredient_ref"})
+Menu.belongsTo(Restaurant)
+Menu.hasMany(Item)
+Item.belongsTo(Menu)
 
-
-module.exports = {Restaurant, Table, Menu, MenuItem, Ingredient, sequelize}
+module.exports = { Restaurant, Menu, Item, sequelize }

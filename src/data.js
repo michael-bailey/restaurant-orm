@@ -1,4 +1,4 @@
-const { Restaurant, Menu, Item, sequelize } = require('./model')
+const { Restaurant, Menu, Item, sequelize } = require('./model/model')
 const data = [
     {
         "name": "Bayroot",

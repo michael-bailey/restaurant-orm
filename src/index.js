@@ -2,13 +2,9 @@ const express = require("express")
 const handlebars = require("handlebars")
 const expressHandlebars = require("express-handlebars")
 const { allowInsecurePrototypeAccess } = require("@handlebars/allow-prototype-access")
-
-const {Restaurant, Menu} = require("./model/model")
-
-
-
-
-let cache = undefined
+const Restaurant = require("./model/Restaurant")
+const Menu = require("./model/Menu")
+const Item = require("./model/Item")
 
 let app = express()
 
@@ -23,16 +19,17 @@ app.set("view engine", "handlebars")
 
 // setting static files folder
 app.use(express.static("public"))
+app.use(express.json())
+
+app.get("/", async (req, res) => {
+    res.render("index")
+})
 
 // overriding index to restaurant site
-app.get('/', async (req, res) => {
-    if (!cache) {
-        // loading restaurants into cache
-        cache = []
-    }
+app.get('/v1/restaurants', async (req, res) => {
     try {
         data = await Restaurant.findAll({
-            include: [{model: Menu}]
+            include: {all: true, nested: true}
         })
 
     } catch (err) {
@@ -40,17 +37,66 @@ app.get('/', async (req, res) => {
         data = [{name: "no such restaurant"}]
     }
 
-    console.log(cache);
-    res.render("index", {
+    res.render("restaurants", {
         title: "Restaurants",
         page: "Main Page",
         restaurant: data
     })
 })
 
+app.get("/v1/restaurants/:id", async (req, res) => {
+    try {
+        data = await Restaurant.findByPk(req.params.id, {include: {all: true, nested: true}, })
+
+    } catch (err) {
+        console.log(err);
+        data = [{name: "no such restaurant"}]
+    }
+
+    res.render("restaurant", {
+        restaurant: data,
+        title: data.name
+    })
+})
+
+app.post("/v1/restaurants", async (req, res) => {
+
+    console.log(req.body);
+
+    let data = req.body
+
+    if (!data.name) {
+        res.json({
+            result: -1,
+            reason: "no name specified"
+        })
+    }
+
+    try {
+        let a = await Restaurant.create(req.body)
+
+        res.json({
+            result: 0,
+            reason: a
+        })
+    } catch (err) {
+        console.log(err);
+        res.json({
+            result: -1,
+            reason: err
+        })
+    }
+
+
+})
+
 // setting the server to listen
 app.listen(3000, async () => {
     console.log("Web server has started :)");
-
     // init data from the data base
+
+    Restaurant.hasMany(Menu)
+    Menu.belongsTo(Restaurant)
+    Menu.hasMany(Item)
+    Item.belongsTo(Menu)
 })

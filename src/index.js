@@ -32,6 +32,12 @@ app.get('/v1/restaurants', async (req, res) => {
             include: {all: true, nested: true}
         })
 
+        /*
+        data = data.map((i) => {
+            if (!i.image) i.image = "https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/No_image_available_600_x_450.svg/1280px-No_image_available_600_x_450.svg.png"
+        })
+        */
+
     } catch (err) {
         console.log(err);
         data = [{name: "no such restaurant"}]
@@ -47,7 +53,7 @@ app.get('/v1/restaurants', async (req, res) => {
 app.get("/v1/restaurants/:id", async (req, res) => {
     try {
         data = await Restaurant.findByPk(req.params.id, {include: {all: true, nested: true}, })
-
+        if (!data.image) data.image = "https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/No_image_available_600_x_450.svg/1280px-No_image_available_600_x_450.svg.png"
     } catch (err) {
         console.log(err);
         data = [{name: "no such restaurant"}]

@@ -8,8 +8,75 @@
     color: white;
 }
 
-/* css for mobile goes here */
 
+@media (prefers-color-scheme: light) {
+
+    html {
+        background-color: skyblue;
+    }
+
+    .glass1 {
+        background-color: rgba(255, 255, 255, 0.45);
+
+        -webkit-backdrop-filter: blur(20px) contrast(1.3);
+        backdrop-filter: blur(20px) contrast(1.3);
+    }
+    
+    .glass2 {
+        background-color: rgba(255, 255, 255, 0.35);
+
+        -webkit-backdrop-filter: blur(10px) contrast(1.4);
+        backdrop-filter: blur(10px) contrast(1.4);
+    }
+
+    .glass3 {
+        background-color: rgba(0, 0, 0, 0.5);
+
+        -webkit-backdrop-filter: blur(30px) contrast(1.2);
+        backdrop-filter: blur(30px) contrast(1.2);
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+
+    html {
+        background-color: black;
+    }
+
+    .glass1 {
+        background-color: rgba(0, 0, 0, 0.45);
+
+        -webkit-backdrop-filter: blur(20px) contrast(1.4);
+        backdrop-filter: blur(20px) contrast(1.4);
+    }
+
+    .glass2 {
+        background-color: rgba(0, 0, 0, 0.3);
+
+        -webkit-backdrop-filter: blur(10px) contrast(1.5);
+        backdrop-filter: blur(10px) contrast(1.5);
+    }
+
+
+    .glass3 {
+        background-color: rgba(0, 0, 0, 0.7);
+
+        -webkit-backdrop-filter: blur(30px) contrast(1.5);
+        backdrop-filter: blur(30px) contrast(1.5);
+    }
+}
+
+.border {
+    border-width: 1cm;
+    border-color: rgba(255, 255, 255, 0.8);
+}
+
+.transitionible {
+    transition-duration: 0.5s;
+    transition-timing-function: cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+/* css for mobile goes here */
 html {
     width: 100%;
     height: fit-content;
@@ -72,62 +139,14 @@ body {
     transition-timing-function: ease-in-out;
 }
 
-@media (prefers-color-scheme: light) {
-
-    html {
-        background-color: skyblue;
-    }
-
-    .glass1 {
-        background-color: rgba(255, 255, 255, 0.45);
-
-        -webkit-backdrop-filter: blur(20px) contrast(1.3);
-        backdrop-filter: blur(20px) contrast(1.3);
-    }
-    
-    .glass2 {
-        background-color: rgba(255, 255, 255, 0.0);
-
-        -webkit-backdrop-filter: blur(10px) contrast(1.4);
-        backdrop-filter: blur(10px) contrast(1.4);
-    }
-}
-
-@media (prefers-color-scheme: dark) {
-
-    html {
-        background-color: black;
-    }
-
-    .glass1 {
-        background-color: rgba(0, 0, 0, 0.45);
-
-        -webkit-backdrop-filter: blur(20px) contrast(1.3);
-        backdrop-filter: blur(20px) contrast(1.3);
-    }
-
-    .glass2 {
-        background-color: rgba(0, 0, 0, 0.7);
-
-        -webkit-backdrop-filter: blur(10px) contrast(1.4);
-        backdrop-filter: blur(10px) contrast(1.4);
-    }
-}
-
-.transitionible {
-    transition-duration: 0.5s;
-    transition-timing-function: cubic-bezier(0.075, 0.82, 0.165, 1);
-}
-
 main {
 
-    margin-bottom: 20%;
-
-    
     height: fit-content;
     grid-area: main;
 
     border-radius: 0.5cm;
+
+    margin-bottom: 20%;
 
     box-shadow: 0px 10px 50px -20px #000000;
 }
@@ -141,12 +160,12 @@ article {
 
     gap: 0.75cm;
 
-    align-items: center;
-    text-align: center;
+    border-radius: 0.5cm;
 
     margin: 5%;
 
-    border-radius: 0.5cm;
+    align-items: center;
+    text-align: center;
 }
 
 section {
@@ -203,7 +222,7 @@ section:hover div h2, section:focus div h2 {
 }
 
 footer {
-    display: block;
+    display: flex;
     position: fixed;
 
     grid-area: footer;
@@ -218,6 +237,8 @@ footer {
 
     align-items: center;
     align-content: center;
+    justify-content: center;
+    
 }
 
 a {

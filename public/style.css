@@ -1,4 +1,212 @@
 * {
     padding: 0;
     margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+
+}
+
+/* css for mobile goes here */
+
+html {
+    width: 100%;
+    height: fit-content;
+
+    background-image: url("https://www.telegraph.co.uk/content/dam/Travel/Destinations/Europe/United%20Kingdom/London/london-aerial-thames-guide.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+
+
+}
+
+header {
+    display: block;
+    position: sticky;
+
+    grid-area: header;
+
+    top: 0.25cm;
+    z-index: 10;
+
+    padding-top: 0.5cm;
+    padding-bottom: 0.5cm;
+
+    border-radius: 0.5cm;
+
+    margin: 5%;
+
+    text-shadow: 0px 2px 20px #000000;
+
+    box-shadow: 0px 10px 50px -20px #000000;
+
+    color: white;
+    background-color: rgba(255, 255, 255, 0.7);
+
+    -webkit-backdrop-filter: blur(20px) contrast(1.3);
+    backdrop-filter: blur(20px) contrast(1.3);
+
+    transition-duration: 1s;
+    transition-timing-function: ease-in-out;
+}
+
+body {
+    display: grid;
+
+    width: 100%;
+    height: fit-content;
+
+    grid-template-columns: 5% auto 5%;
+    grid-template-rows: 4cm max-content 1cm;
+
+    grid-template-areas: '. header .' '. main .' 'footer footer footer';
+
+    text-align: center;
+
+    align-content: center;
+    align-items: center;
+    align-self: center;
+
+    transition-duration: 1s;
+    transition-timing-function: ease-in-out;
+}
+
+main {
+
+    margin-bottom: 20%;
+
+    
+    height: fit-content;
+    grid-area: main;
+
+    border-radius: 0.5cm;
+
+    box-shadow: 0px 10px 50px -20px #000000;
+
+    background-color: rgba(255, 255, 255, 0.7);
+
+    -webkit-backdrop-filter: blur(20px) contrast(1.3);
+    backdrop-filter: blur(20px) contrast(1.3);
+}
+
+article {
+    display: grid;
+    margin: auto;
+
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+
+    gap: 1cm;
+
+    align-items: center;
+    text-align: center;
+
+    margin: 5%;
+
+    border-radius: 0.5cm;
+
+    
+}
+
+section {
+    position: relative;
+
+    width: 100%;
+    height: 8cm;
+
+    text-shadow: 0px 2px 20px #000000;
+
+    color: white;
+
+    border-radius: 0.5cm;
+
+    box-shadow: 0px 10px 50px -20px #000000;
+
+    background-repeat: no-repeat;
+    background-size: cover;
+    
+}
+
+section:hover section:focus {
+  transform: scale(1.2);
+}
+
+section div {
+    position: absolute;
+
+    bottom: 0;
+
+    width: 100%;
+    height: 30%;
+
+    text-align: right;
+
+    margin-top: 0.5cm;
+
+    background-color: rgba(0, 0, 0, 0.3);
+
+    -webkit-backdrop-filter: blur(10px) contrast(1.4);
+    backdrop-filter: blur(10px) contrast(1.4);
+
+    border-radius: 0cm 0cm 0.5cm 0.5cm; 
+}
+
+section div h2 {
+    position: absolute;
+
+    right: 1cm;
+    bottom: 0.5cm;
+
+    width: min-content;
+    height: min-content;
+}
+
+footer {
+    display: block;
+    position: fixed;
+
+    grid-area: footer;
+
+    bottom: 0;
+
+    width: 100%;
+    height: 1.5cm;
+
+    font-size: large;
+    text-align: center;
+
+    align-items: center;
+    align-content: center;
+
+
+    color: white;
+    background-color: rgba(0, 0, 0, 0.7) ;
+
+    -webkit-backdrop-filter: blur(20px) contrast(1.3);
+    backdrop-filter: blur(20px) contrast(1.3);
+    
+}
+
+a {
+    color: white;
+}
+
+@media screen and (min-width: 50em) {
+    body {
+        grid-template-columns: 10% auto 10%;
+        grid-template-rows: 4cm max-content 1cm;
+    }
+
+    article {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+@media screen and (min-width: 100em) {
+    body {
+        grid-template-columns: 20% auto 20%;
+        grid-template-rows: 4cm max-content 1cm;
+    }
+
+    article {
+        grid-template-columns: 1fr 1fr 1fr;
+    }
 }

@@ -24,7 +24,7 @@ app.set("view engine", "handlebars")
 // setting static files folder
 app.use(express.static("public"))
 
-// overriding date handle
+// overriding index to restaurant site
 app.get('/', async (req, res) => {
     if (!cache) {
         // loading restaurants into cache

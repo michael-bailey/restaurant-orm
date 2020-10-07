@@ -1,8 +1,9 @@
 <article>
     {{#each restaurant}}
-    <section>
-        <h2>{{this.name}}</h2>
-        <img src="{{this.image}}" />
+    <section style="background-image: url('{{this.image}}');">
+        <div>
+            <h2>{{this.name}}</h2>
+        </div>
     </section>
     {{/each}}
 </article>

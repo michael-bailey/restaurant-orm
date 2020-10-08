@@ -49,10 +49,10 @@
 .pane-cover-header {
     position: absolute;
 
+    width: 50%;
+
     bottom: 1em;
     right: 2em;
-
-    width: min-content;
 
     text-align: end;
     justify-content: right;

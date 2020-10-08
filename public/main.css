@@ -28,7 +28,7 @@ body {
     width: 100%;
     height: fit-content;
 
-    grid-template-columns: 5% auto 5%;
+    grid-template-columns: 5% 90% 5%;
     grid-template-rows: 4cm max-content 1cm;
 
     grid-template-areas: '. header .' '. main .' 'footer footer footer';
@@ -41,10 +41,14 @@ body {
 }
 
 header {
-    display: block;
+    display: flexbox;
     position: sticky;
 
     grid-area: header;
+
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
 
     top: 0.25cm;
 
@@ -57,6 +61,16 @@ header {
 
 }
 
+.manager-button {
+    position: fixed;
+
+    bottom: 5rem;
+    right: 5rem;
+
+    padding: 1em;
+
+    text-decoration: none;
+}
 
 main {
     height: fit-content;

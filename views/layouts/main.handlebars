@@ -6,21 +6,28 @@
 
         <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
 
-
+        <link rel="stylesheet" href="/theme.css">
         <link rel="stylesheet" href="/main.css" />
-        <link rel="stylesheet" href="/classes.css" />
-        <link rel="stylesheet" href="/restaurants.css" />
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     </head>
     
     <body class="transitionible">
+            
         <header class="pane glass1 transitionible">
-            <h1>{{title}}</h1>
+            
+            <a style="text-decoration: none;" href="/v1/restaurants">
+                <h1>Restaurant</h1>
+            </a>
         </header>
+
         <main>
             {{{body}}}
         </main>
         <footer class="glass3">
             By Michael Bailey @ <a style="text-decoration: underline;" href="https://michael-bailey.github.io/"> michael-bailey.github.io</a>
         </footer>
+
+        <a class="manager-button glass1 pane" href="{{managerRef}}">⚙️</a>
     </body>
 </html>

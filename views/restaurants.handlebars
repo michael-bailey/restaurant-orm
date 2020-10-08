@@ -1,4 +1,14 @@
 <article class="pane glass1 restaurant-grid">
+    <script>
+        // dynamic loading of css using scripts that are loaded at render time
+        var css = document.createElement("link")
+        css.rel = "stylesheet"
+        css.href = "/restaurants.css"
+
+        document.head.appendChild(css)
+    </script>
+
+
     {{#each restaurant}}
     <a href="/v1/restaurants/{{this.id}}">
         <section style="background-image: url('{{this.image}}');" class="image-host pane">

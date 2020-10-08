@@ -2,6 +2,8 @@ const sequelize = require("./model/database_setup");
 const Restaurant = require("./model/Restaurant");
 const Menu = require("./model/Menu");
 const Item = require("./model/Item");
+const { tableName } = require("./model/Item");
+const Table = require("./model/Table");
 
 const data = [
     {
@@ -211,6 +213,11 @@ Restaurant.hasMany(Menu)
 Menu.belongsTo(Restaurant)
 Menu.hasMany(Item)
 Item.belongsTo(Menu)
+
+Restaurant.hasMany(Table)
+Table.belongsTo(Restaurant)
+Table.hasMany(Booking)
+Booking.belongsTo(Table)
 
 sequelize.sync({force: true}).then(async () => {
     const taskQueue = data.map(async (_restaurant) => {

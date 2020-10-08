@@ -55,7 +55,7 @@ app.get('/v1/restaurants', async (req, res) => {
 app.get("/v1/restaurants/manager", async (req, res) => {
     var restaurants
     try {
-        restaurants = await Restaurant.findAll({include: {all: true, nested: true}})
+        restaurants = await Restaurant.findAll()
     } catch(err) {
         console.log(err);
     }
@@ -65,6 +65,7 @@ app.get("/v1/restaurants/manager", async (req, res) => {
     })
 })
 
+// MARK: - restaurants
 app.get("/v1/restaurants/:id", async (req, res) => {
     try {
         data = await Restaurant.findByPk(req.params.id, {include: {all: true, nested: true}, })
@@ -107,18 +108,6 @@ app.delete("/v1/restaurants/:id", async (req, res) => {
 })
 
 app.post("/v1/restaurants", async (req, res) => {
-
-    console.log(req.body);
-
-    let data = req.body
-
-    if (!data.name) {
-        res.json({
-            result: -1,
-            reason: "no name specified"
-        })
-    }
-
     try {
         let a = await Restaurant.create(req.body)
 
@@ -131,7 +120,49 @@ app.post("/v1/restaurants", async (req, res) => {
         })
     }
 })
+// MARK: end -
 
+// MARK - menus
+app.get("/v1/menus/manager", async (req, res) => {
+    var menus
+    try {
+        menus = await Menu.findAll()
+    } catch(err) {
+        console.log(err);
+    }
+
+    res.render("menu_manager", {
+        menus: menus
+    })
+})
+
+app.delete("/v1/menus/:id", async (req, res) => {
+    let data = req.body
+
+    try {
+        let data = await Menu.destroy({where: {Id: req.params.id}})
+        res.json(data)
+    } catch (err) {
+        res.json(err)
+    }
+})
+
+app.post("/v1/menus", async (req, res) => {
+    try {
+        console.log(req.body);
+        let a = await Menu.create(req.body)
+
+        res.redirect(`/v1/menus/manager#${a.id}`)
+    } catch (err) {
+        console.log(err);
+        res.json({
+            result: -1,
+            reason: err
+        })
+    }
+})
+
+// MARK: end -
 
 // setting the server to listen
 app.listen(3000, async () => {

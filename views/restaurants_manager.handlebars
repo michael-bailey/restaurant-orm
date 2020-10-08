@@ -1,0 +1,58 @@
+<article class="glass1 pane">
+    <script>
+        // dynamic loading of css using scripts that are loaded at render time
+        var css = document.createElement("link")
+        css.rel = "stylesheet"
+        css.href = "/restaurants_manager.css"
+
+        document.head.appendChild(css)
+
+        function removeItem(id) {
+            new Promise((res, rej) => {
+                console.log(id)
+
+                $.ajax({
+                    url: `/v1/restaurants/${id}`,
+                    method: "delete"
+                })
+
+                console.log("sent request")
+                res()
+            })
+            .then((res) => {
+                console.log("reloading")
+                location.reload()
+            })
+        }
+    </script>
+
+    <h1>Restaurant manager.</h1>
+    <table class="glass3 pane">
+        <tr>
+            <th class="id">id</td>
+            <th class="name">name</td>
+            <th class="url">url</td>
+            <th class="actions">actions</th>
+        </tr>
+
+        {{#each restaurants}}
+            <tr id="{{this.id}}">
+                <td class="table-item">{{this.id}}</p>
+                <td class="table-item">{{this.name}}</p>
+                <td class="table-item text-crop">{{this.image}}</p>
+                <td>
+                    <button class="input" onclick="removeItem({{this.id}})" >delete</button>
+                </td>
+            </tr>
+        {{/each}}
+
+        <form action="/v1/restaurants" method="POST">
+            <tr>
+                <td>new</td>
+                <td><input name="name" type="text" required="true" class="input"/></td>
+                <td><input name="image" type="url" required="true" class="input"/></td>
+                <td><input type="submit" class="input"/></td>
+            </tr>
+        </form>
+    </table>
+</article>

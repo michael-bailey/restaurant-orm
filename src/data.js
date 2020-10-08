@@ -2,8 +2,8 @@ const sequelize = require("./model/database_setup");
 const Restaurant = require("./model/Restaurant");
 const Menu = require("./model/Menu");
 const Item = require("./model/Item");
-const { tableName } = require("./model/Item");
 const Table = require("./model/Table");
+const Booking = require("./model/Booking");
 
 const data = [
     {

@@ -1,4 +1,8 @@
-const { Restaurant, Menu, Item, sequelize } = require('./model/model')
+const sequelize = require("./model/database_setup");
+const Restaurant = require("./model/Restaurant");
+const Menu = require("./model/Menu");
+const Item = require("./model/Item");
+
 const data = [
     {
         "name": "Bayroot",
@@ -202,9 +206,16 @@ const data = [
         "image": "https://media.timeout.com/images/103813580/1372/772/image.jpg"
     }
 ]
-sequelize.sync().then(async () => {
+
+Restaurant.hasMany(Menu)
+Menu.belongsTo(Restaurant)
+Menu.hasMany(Item)
+Item.belongsTo(Menu)
+
+sequelize.sync({force: true}).then(async () => {
     const taskQueue = data.map(async (_restaurant) => {
             const restaurant = await Restaurant.create({name: _restaurant.name, image: _restaurant.image})
+            console.log(_restaurant)
             const menus = await Promise.all(_restaurant.menus.map(async (_menu) => {
                 const items = await Promise.all(_menu.items.map(({name, price}) => Item.create({name, price})))
                 const menu = await Menu.create({title: _menu.title})

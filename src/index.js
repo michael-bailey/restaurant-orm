@@ -19,6 +19,7 @@ app.set("view engine", "handlebars")
 
 // setting static files folder
 app.use(express.static("public"))
+app.use(express.urlencoded({extended: true}))
 app.use(express.json())
 
 app.get("/", async (req, res) => {
@@ -46,7 +47,21 @@ app.get('/v1/restaurants', async (req, res) => {
     res.render("restaurants", {
         title: "Restaurants",
         page: "Main Page",
-        restaurant: data
+        restaurant: data,
+        managerRef: "/v1/restaurants/manager"
+    })
+})
+
+app.get("/v1/restaurants/manager", async (req, res) => {
+    var restaurants
+    try {
+        restaurants = await Restaurant.findAll({include: {all: true, nested: true}})
+    } catch(err) {
+        console.log(err);
+    }
+
+    res.render("restaurants_manager", {
+        restaurants: restaurants
     })
 })
 
@@ -65,6 +80,32 @@ app.get("/v1/restaurants/:id", async (req, res) => {
     })
 })
 
+app.put("/v1/restaurants/:id", async (req, res) => {
+    let data = req.body
+
+    try {
+        let data = await Restaurant.update(data, { where: req.params.id })
+        res.json(data)
+    } catch (err) {
+        res.json(err)
+    }
+})
+
+app.patch("/v1/restaurants/:id", async (req, res) => {
+
+})
+
+app.delete("/v1/restaurants/:id", async (req, res) => {
+    let data = req.body
+
+    try {
+        let data = await Restaurant.destroy({where: {Id: req.params.id}})
+        res.json(data)
+    } catch (err) {
+        res.json(err)
+    }
+})
+
 app.post("/v1/restaurants", async (req, res) => {
 
     console.log(req.body);
@@ -81,10 +122,7 @@ app.post("/v1/restaurants", async (req, res) => {
     try {
         let a = await Restaurant.create(req.body)
 
-        res.json({
-            result: 0,
-            reason: a
-        })
+        res.redirect(`/v1/restaurants/manager#${a.id}`)
     } catch (err) {
         console.log(err);
         res.json({
@@ -92,9 +130,8 @@ app.post("/v1/restaurants", async (req, res) => {
             reason: err
         })
     }
-
-
 })
+
 
 // setting the server to listen
 app.listen(3000, async () => {

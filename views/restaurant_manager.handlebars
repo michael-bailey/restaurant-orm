@@ -3,26 +3,26 @@
         // dynamic loading of css using scripts that are loaded at render time
         var css = document.createElement("link")
         css.rel = "stylesheet"
-        css.href = "/manager.css"
+        css.href = "/manager_page.css"
 
         document.head.appendChild(css)
 
         function removeItem(id) {
             new Promise((res, rej) => {
-                console.log(id)
-
-                $.ajax({
+                let a = $.ajax({
                     url: `/v1/restaurants/${id}`,
                     method: "delete"
                 })
-
-                console.log("sent request")
-                res()
+                res(a)
             })
             .then((res) => {
-                console.log("reloading")
+                console.log(res)
                 location.reload()
             })
+        }
+
+        function updateItem(id) {
+            
         }
     </script>
 
@@ -41,6 +41,7 @@
                 <td class="table-item">{{this.name}}</p>
                 <td class="table-item text-crop">{{this.image}}</p>
                 <td>
+                    <b
                     <button class="input" onclick="removeItem({{this.id}})" >delete</button>
                 </td>
             </tr>

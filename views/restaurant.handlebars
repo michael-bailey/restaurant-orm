@@ -19,16 +19,24 @@
     </section>
 
     {{#each restaurant.Menus}}
-        <section class="glass2 pane menu" style="text-align: left;">
-            <h3 style="margin-bottom: 3em;">{{this.title}}</h3>
-            <div class="menu-grid">
-                
-                {{#each this.Items}}
-                    <h4>{{this.name}}</h4>
-                    <p>£{{this.price}}</p>
-                {{/each}}
-            </div>
-        </section>
+        <a href="/restaurants/{{../restaurant.id}}/{{this.id}}">
+            <section class="glass3 pane menu" style="text-align: left;">
+                <h3 style="margin-bottom: 3em; text-align: center;">{{this.title}}</h3>
+                <table>
+                    <tr>
+                        <th class="name">Item name</th>
+                        <th class="price">price</th>
+                    </tr>
+                    
+                    {{#each this.Items}}
+                        <tr>
+                            <td>{{this.name}}</td>
+                            <td>£{{this.price}}</td>
+                        </tr>
+                    {{/each}}
+                </table>
+            </section>
+        </a>
     {{/each}}
     
 </article>

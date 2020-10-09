@@ -1,5 +1,7 @@
-const { Restaurant, sequelize, Table, Menu, MenuItem, Ingredient } = require("./model")
-
+import Restaurant from "../src/model/Restaurant";
+import Table from "../src/model/Table";
+import Menu from "../src/model/Menu";
+import Item from "../src/model/Item";
 
 describe("sequelize test", () => {
     test("creating a new restaurant", async () => {
@@ -20,18 +22,18 @@ describe("sequelize test", () => {
         let m2 = await Menu.create({title: "sunday roast"})
 
         // creating breakfast items
-        let mi1 = await MenuItem.create({name: "full english", description: "a full english breakfast"})
-        let mi2 = await MenuItem.create({name: "cereal", description: "wheatabix"})
+        let mi1 = await Item.create({name: "full english", description: "a full english breakfast"})
+        let mi2 = await Item.create({name: "cereal", description: "wheatabix"})
 
         // creating sunday roast items
-        let mi3 = await MenuItem.create({name: "roasted chicken", description: "a roasted chicken"})
-        let mi4 = await MenuItem.create({name: "roasted lamb", description: "a roasted lamb leg"})
+        let mi3 = await Item.create({name: "roasted chicken", description: "a roasted chicken"})
+        let mi4 = await Item.create({name: "roasted lamb", description: "a roasted lamb leg"})
 
         // adding menu items
-        m1.addMenuItem(mi1)
-        m1.addMenuItem(mi2)
-        m2.addMenuItem(mi3)
-        m2.addMenuItem(mi4)
+        m1.addItem(mi1)
+        m1.addItem(mi2)
+        m2.addItem(mi3)
+        m2.addItem(mi4)
 
         // ingredients
         let i1 = await Ingredient.create({name: "pasta", isAllergen: false})
@@ -75,4 +77,6 @@ describe("sequelize test", () => {
         expect(a[0].RestaurantId).toEqual(1)
 
     })
+
+    test
 })

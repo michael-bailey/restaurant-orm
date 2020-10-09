@@ -1,0 +1,36 @@
+<article class="glass1 pane">
+        <script>
+        // dynamic loading of css using scripts that are loaded at render time
+        var css = document.createElement("link")
+        css.rel = "stylesheet"
+        css.href = "/menu.css"
+
+        document.head.appendChild(css)
+    </script>
+
+    <section style="background-image: url('{{image}}');" class="pane description-box">
+        <div class="glass2 pane-cover">
+            <div class="pane-cover-header">
+                <h2>{{menu.title}}</h2>
+            </div>
+        </div>
+    </section>
+
+    <section class="glass3 pane menu" style="text-align: left;">
+        <h3 style="margin-bottom: 3em; text-align: center;">menu</h3>
+        <table>
+            <tr>
+                <th class="name">Item name</th>
+                <th class="price">price</th>
+            </tr>
+
+            {{#each menu.Items}}
+                <tr>
+                    <td>{{this.name}}</td>
+                    <td>£{{this.price}}</td>
+                </tr>
+            {{/each}}
+            
+        </table>
+    </section>
+</article>

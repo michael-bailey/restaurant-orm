@@ -7,35 +7,27 @@
 
         document.head.appendChild(css)
 
-        function removeItem(id) {
-            console.log(id)
+        async function removeItem(id) {
             new Promise((res, rej) => {
-                let a = $.ajax({
-                    url: `/v1/restaurants/${id}`,
+                $.ajax({
+                    url: `/v1/restaurants/{{restaurant_id}}/menus/{{menu_id}}/items/${id}`,
                     method: "DELETE"
                 })
-                res(a)
+                res()
             })
             .then((res) => {
-                console.log(res)
                 location.reload()
             })
         }
 
-        function updateItem(id) {
+        async function updateItem(id) {
             new Promise((res, rej) => {
-                console.log({
-                    name: document.getElementById(`${id}_name`).value,
-                    image: document.getElementById(`${id}_image`).value
-                })
-                console.log(id)
-
                 $.ajax({
-                    url: `/v1/restaurants/${id}`,
+                    url: `/v1/restaurants/{{restaurant_id}}/menus/{{menu_id}}/items/${id}`,
                     method: "PATCH",
                     data: {
                         name: document.getElementById(`${id}_name`).value,
-                        image: document.getElementById(`${id}_image`).value
+                        price: document.getElementById(`${id}_price`).value,
                     }
                 })
                 res()
@@ -46,32 +38,32 @@
         }
     </script>
 
-    <h1>Restaurant manager.</h1>
+    <h1>menu manager.</h1>
     <table class="glass3 pane">
         <tr>
-            <th class="id">id</td>
-            <th class="name">name</td>
-            <th class="url">url</td>
+            <th class="id">id</th>
+            <th class="title">name</th>
+            <th class="price">price</th>
             <th class="actions">actions</th>
         </tr>
 
-        {{#each restaurants}}
+        {{#each items}}
             <tr id="{{this.id}}">
                 <td class="table-item">{{this.id}}</td>
-                <td class="table-item"><input id="{{this.id}}_name" class="input" type="text" value="{{this.name}}" /></td>
-                <td class="table-item text-crop"><input id="{{this.id}}_image" class="input" type="text" value="{{this.image}}" /></td>
+                <td class="table-item"><input id="{{id}}_name"  class="input" type="text" value="{{this.name}}" /></td>
+                <td class=""><input id="{{id}}_price"  class="input" type="number" step="0.01" value="{{this.price}}" /></td>
                 <td>
-                    <button class="action-button edit" onclick="updateItem({{this.id}})">✏️</button>
-                    <button class="action-button delete" onclick="removeItem({{this.id}})" >❌</button>
+                    <button  class="action-button" onclick="updateItem({{this.id}})">✏️</button>
+                    <button class="action-button" onclick="removeItem({{this.id}})" >❌</button>
                 </td>
             </tr>
         {{/each}}
 
-        <form action="/v1/restaurants" method="POST">
+        <form action="/v1/restaurants/{{restaurant_id}}/menus/{{menu_id}}/items" method="POST">
             <tr>
                 <td>new</td>
                 <td><input name="name" type="text" required="true" class="input"/></td>
-                <td><input name="image" type="url" required="true" class="input"/></td>
+                <td><input name="price" type="number" required="true" step="0.01" class="input"/></td>
                 <td><input type="submit" class="input"/></td>
             </tr>
         </form>

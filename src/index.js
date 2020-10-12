@@ -33,8 +33,8 @@ const restaurant_menu_page = "/restaurants/:restaurant_id/:menu_id"
 
 // MARK: - manager page paths
 const restaurant_manager = "/restaurants/manager"
-const restaurant_menus_manager = "/restaurant/:restaurant_id/manager"
-const restaurant_menu_items_manager = "/restaurant/:restaurant_id/menus/:menu_id/items/manager"
+const restaurant_menus_manager = "/restaurants/:restaurant_id/manager"
+const restaurant_menu_items_manager = "/restaurants/:restaurant_id/menus/:menu_id/items/manager"
 
 // MARK - api paths
 const api_restaurants = "/v1/restaurants"
@@ -74,6 +74,17 @@ app.get(restaurants_page, async (req, res) => {
     })
 })
 
+// MARK: - restaurant manager
+app.get(restaurant_manager, async (req, res) => {
+    try {
+        res.render("restaurant_manager", {
+            restaurants: (await Restaurant.findAll())
+        })
+    } catch (err) {
+        res.json(err)
+    }
+})
+
 // MARK: - restaurant page
 app.get(restaurant_page, async (req, res) => {
     try {
@@ -90,18 +101,28 @@ app.get(restaurant_page, async (req, res) => {
     })
 })
 
+// MARK: - menu manager
+app.get(restaurant_menus_manager, async (req, res) => {
+    try {
+        res.render("menu_manager", {
+            menus: await Menu.findAll({where: {RestaurantId: req.params.restaurant_id}}),
+            restaurant_id: req.params.restaurant_id
+        })
+    } catch (err) {
+        res.json(err)
+    }
+})
+
 // MARK: - menus page
 app.get(restaurant_menu_page, async (req, res) => {
 
     restaurant_id = req.params.restaurant_id
     menu_id = req.params.menu_id
+    item_id = req.params.item_id
 
     try {
-        
         data = await Menu.findByPk(menu_id, {include: {nested: true, all: true}})
         image = (await Restaurant.findByPk(restaurant_id)).image
-
-        
     } catch (err) {
         res.json(err)
     }
@@ -114,34 +135,17 @@ app.get(restaurant_menu_page, async (req, res) => {
     
 })
 
-// MARK: - manager pages
-// MARK: - restaurant manager
-app.get(restaurant_manager, async (req, res) => {
-    try {
-        res.render("restaurant_manager", {
-            restaurants: await Restaurant.findAll()
-        })
-    } catch (err) {
-        res.json(err)
-    }
-})
-
-// MARK: - menu manager
-app.get(restaurant_menus_manager, async (req, res) => {
-    try {
-        res.render("menu_manager", {
-            menus: await Menu.findAll({where: {RestaurantId: req.params.restaurant_id}})
-        })
-    } catch (err) {
-        res.json(err)
-    }
-})
-
 // MARK: - item manager
 app.get(restaurant_menu_items_manager, async (req, res) => {
     try {
+        let menu_id = req.params.menu_id
+        let restaurant_id = req.params.restaurant_id
+
+        let items = await Item.findAll({where: {MenuId: req.params.menu_id}})
         res.render("item_manager", {
-            items: await Item.findAll({where: {MenuId: req.params.menu_id}})
+            items: items,
+            menu_id: menu_id,
+            restaurant_id: restaurant_id
         })
     } catch (err) {
         res.json(err)
@@ -157,16 +161,17 @@ app.route(api_restaurants)
     res.json(data)
 })
 .post(async (req, res) => {
+    console.log("post request to menus aip")
     try {
         await Restaurant.create(req.body)
-        res.json(await Restaurant.findAll())
+        res.redirect("/restaurants/manager")
     } catch (err) {
         console.log(err);
         res.json(err)
     }
 })
 
-// retaurant routes
+// restaurant routes
 app.route(api_restaurant)
 .get(async (req, res) => {
     try {
@@ -178,14 +183,25 @@ app.route(api_restaurant)
     }
 })
 .put(async (req, res) => {
+    console.log("post request to menus aip")
+    try {
+        let r = await Restaurant.create(req.body)
+        res.json(r)
+    } catch (err) {
+        console.log(err);
+        res.json(err)
+    }
+})
+.patch(async (req, res) => {
     try {
         let data = req.body
-        let r = await Restaurant.findByPk(req.params.id)
+        console.log(data)
+        let r = await Restaurant.findByPk(req.params.restaurant_id)
+        console.log(r)
         await r.update(data)
         await r.save()
-    
-        req.method = "GET"
-        res.redirect("/v1/restaurants/manager")
+
+        res.json(r)
     } catch (err) {
         res.json(err)
     }
@@ -212,9 +228,10 @@ app.route(api_restaurant_menus)
 })
 .post(async (req, res) => {
     try {
-        req.body.RestaurantId = req.params.restaurant_id
+        let restaurant_id = req.params.restaurant_id
+        req.body.RestaurantId = restaurant_id
         await Menu.create(req.body)
-        res.json(await Menu.findAll({where: {RestaurantId: req.params.restaurant_id}}))
+        res.redirect(`/restaurants/${restaurant_id}/manager`)
     } catch (err) {
         res.json(err)
     }
@@ -235,11 +252,23 @@ app.route(api_restaurant_menu)
 .put(async (req, res) => {
     try {
         let data = req.body
+        await Menu.create(data)
+        res.json(await Menu.findAll({where: {RestaurantId: req.params.restaurant_id}}))
+
+    } catch (err) {
+        res.json(err)
+    }
+})
+.patch(async (req, res) => {
+    try {
+        let data = req.body
+        console.log(data)
         let m = await Menu.findByPk(req.params.menu_id)
+
         await m.update(data)
         await m.save()
 
-        res.json(await Menu.findAll())
+        res.json(m)
     } catch (err) {
         res.json(err)
     }
@@ -267,10 +296,12 @@ app.route(api_restaurant_menu_items)
 })
 .post(async (req, res) => {
     try {
-        req.body.MenuId = req.params.menu_id
+        let menu_id = req.params.menu_id
+        let restaurant_id = req.params.restaurant_id
+        req.body.MenuId = menu_id
 
         await Item.create(req.body)
-        res.json(await Item.findAll({where: {MenuId: req.params.menu_id}}))
+        res.redirect(`/restaurants/${restaurant_id}/menus/${menu_id}/items/manager`)
     } catch (err) {
         res.json(err)
     }
@@ -290,6 +321,16 @@ app.route(api_restaurant_menu_item)
     }
 })
 .put(async (req, res) => {
+    try {
+        let data = req.body
+        let m = await Menu.create(data)
+        res.json(m)
+
+    } catch (err) {
+        res.json(err)
+    }
+})
+.patch(async (req, res) => {
     try {
         let data = req.body
         let m = await Item.findByPk(req.params.item_id)

@@ -8,15 +8,35 @@
         document.head.appendChild(css)
 
         async function removeItem(id) {
-            console.log(id)
-
-            $.ajax({
-                url: `/v1/menus/${id}`,
-                method: "delete"
+            new Promise((res, rej) => {
+                let a = $.ajax({
+                    url: `/v1/restaurants/{{restaurant_id}}/menus/${id}`,
+                    method: "DELETE"
+                })
+                console.log(a)
+                res()
             })
+            .then((res) => {
+                location.reload()
+            })
+        }
 
-            console.log("sent request")
-
+        async function updateItem(id) {
+            new Promise((res, rej) => {
+                let a = $.ajax({
+                    url: `/v1/restaurants/{{restaurant_id}}/menus/${id}`,
+                    method: "PATCH",
+                    data: {
+                        title: document.getElementById(`${id}_title`).value,
+                        RestaurantId: {{restaurant_id}}
+                    }
+                })
+                console.log(a)
+                res()
+            })
+            .then((res) => {
+                location.reload()
+            })
         }
     </script>
 
@@ -25,26 +45,24 @@
         <tr>
             <th class="id">id</th>
             <th class="title">title</th>
-            <th class="parentID">restaurant id</th>
             <th class="actions">actions</th>
         </tr>
 
         {{#each menus}}
             <tr id="{{this.id}}">
                 <td class="table-item">{{this.id}}</td>
-                <td class="table-item">{{this.title}}</td>
-                <td class="table-item">{{this.RestaurantId}}</td>
+                <td class="table-item"><input id="{{id}}_title"  class="input" type="text" value="{{this.title}}" /></td>
                 <td>
-                    <button class="input" onclick="removeItem({{this.id}})" >delete</button>
+                    <button  class="action-button" onclick="updateItem({{this.id}})">✏️</button>
+                    <button class="action-button" onclick="removeItem({{this.id}})" >❌</button>
                 </td>
             </tr>
         {{/each}}
 
-        <form action="/v1/menus" method="POST">
+        <form action="/v1/restaurants/{{restaurant_id}}/menus" method="POST">
             <tr>
                 <td>new</td>
                 <td><input name="title" type="text" required="true" class="input"/></td>
-                <td><input name="RestaurantId" type="number" required="true" class="input"/></td>
                 <td><input type="submit" class="input"/></td>
             </tr>
         </form>
